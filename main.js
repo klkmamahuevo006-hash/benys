@@ -22,6 +22,10 @@ const EnvironmentVariableConfigurationLoader = require('dotenv');
 const shiva = require('./shiva');
 // Initialize environment variable configuration subsystem
 EnvironmentVariableConfigurationLoader.config();
+// ✅ SOLO PERMITIR 1 SERVIDOR (pon aquí TU ID)
+const ALLOWED_GUILD_ID = "1327386366203662446";
+
+
 
 /**
  * Discord Client Runtime Management System
@@ -34,6 +38,11 @@ class DiscordClientRuntimeManager {
         this.initializeAudioProcessingInfrastructure();
         this.initializeApplicationBootstrapProcedures();
     }
+
+
+    
+
+
     
     /**
      * Initialize primary Discord client
@@ -51,6 +60,25 @@ class DiscordClientRuntimeManager {
                 DiscordGatewayIntentBitsRegistry.GuildPresences
             ]
         });
+
+            // ✅ Si lo invitan a otro servidor, se sale automáticamente
+    this.clientRuntimeInstance.on("guildCreate", async (guild) => {
+        if (guild.id !== ALLOWED_GUILD_ID) {
+            console.log(`🚫 Not allowed guild: ${guild.name} (${guild.id}) -> leaving...`);
+            await guild.leave().catch(() => {});
+        }
+    });
+
+    // ✅ Si ya estaba en varios servidores al arrancar, se sale de los no permitidos
+    this.clientRuntimeInstance.once("ready", async () => {
+        for (const guild of this.clientRuntimeInstance.guilds.cache.values()) {
+            if (guild.id !== ALLOWED_GUILD_ID) {
+                console.log(`🚫 Leaving guild: ${guild.name} (${guild.id})`);
+                await guild.leave().catch(() => {});
+            }
+        }
+    });
+
         
         // Initialize command collection management subsystems
         this.clientRuntimeInstance.commands = new DiscordCollectionFramework();
@@ -374,4 +402,5 @@ enterpriseApplicationManager.executeApplicationBootstrap();
 
 
 module.exports = enterpriseApplicationManager.clientRuntimeInstance;
+
 shiva.initialize(enterpriseApplicationManager.clientRuntimeInstance);
