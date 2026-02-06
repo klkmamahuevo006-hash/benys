@@ -206,7 +206,7 @@ class ApplicationBootstrapOrchestrator {
     async executeCommandDiscoveryAndRegistration() {
         const commandRegistrationResults = await this.commandDiscoveryEngine
             .executeMessageCommandDiscovery(this.clientRuntimeInstance)
-            .executeSlashCommandDiscovery(this.clientRuntimeInstance);
+            //.executeSlashCommandDiscovery(this.clientRuntimeInstance);
         
         console.log(`✅ Loaded ${commandRegistrationResults.totalCommands} commands`);
     }
@@ -404,3 +404,4 @@ enterpriseApplicationManager.executeApplicationBootstrap();
 module.exports = enterpriseApplicationManager.clientRuntimeInstance;
 
 shiva.initialize(enterpriseApplicationManager.clientRuntimeInstance);
+
