@@ -267,24 +267,6 @@ await this.client.user.setPresence({
     }
 
 
-async setDefaultStatus() {
-    this.stopCurrentStatus();
-    this.isPlaying = false;
-
-    const defaultActivity = `!beny`;
-
-    await this.client.user.setPresence({
-        activities: [{
-            name: defaultActivity,
-            type: ActivityType.Streaming,
-            url: "https://www.twitch.tv/beny"
-        }],
-        status: 'online'
-    });
-
-    console.log(`✅ Status reset to: ${defaultActivity}`);
-}
-
   
     stopCurrentStatus() {
         if (this.currentInterval) {
@@ -370,3 +352,4 @@ await this.client.user.setPresence({
 }
 
 module.exports = StatusManager;
+
