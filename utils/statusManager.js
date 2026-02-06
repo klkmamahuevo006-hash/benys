@@ -280,7 +280,7 @@ await this.client.user.setPresence({
         if (!this.isPlaying) {
 await this.client.user.setPresence({
     activities: [{
-        name: `☾‘`,
+        name: `!?`,
         type: ActivityType.Streaming,
         url: "https://www.twitch.tv/beny"
     }],
@@ -352,4 +352,5 @@ await this.client.user.setPresence({
 }
 
 module.exports = StatusManager;
+
 
